@@ -52,6 +52,7 @@ def get_pokemon_info(pokemon_name):
         return
     
 def get_pokemon_names(offset=0, limit=100000):
+    pokemon_name = str(pokemon_name).strip().lower()
 
 
     query_params = {
@@ -74,6 +75,8 @@ def get_pokemon_names(offset=0, limit=100000):
         print('failure')
         print(f'Response code: {resp_msg.status_code} ({resp_msg.reason})')         
         return
+
+
 def download_pokemon_artwork(pokemon_name, folder_path):
 
     poke_info = get_pokemon_info(pokemon_name)
@@ -84,6 +87,12 @@ def download_pokemon_artwork(pokemon_name, folder_path):
     poke_image_url =  poke_info['sprites']['other']['official-artwork']['front_defualt']  
 
     image_data = image_lib.download_image(poke_image_url)
+    
+    #determine path to which it saves to a file
+    image_ext = poke_image_url.split('.')[-1]
+    file_name = f'{pokemon_name}{["name"]}.{image_ext}'
+    file_path = os.path.join(folder_path, file_path)
+
     if image_data is None:
         return False
 
